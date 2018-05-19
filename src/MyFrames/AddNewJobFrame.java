@@ -7,6 +7,11 @@ package MyFrames;
 
 import DBConnection.DBConnection;
 import Model.Orders;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,7 +19,10 @@ import javax.swing.JOptionPane;
  * @author Bimalka
  */
 public class AddNewJobFrame extends javax.swing.JInternalFrame {
-
+    
+    int dailyTarget=0;
+    int daysLeft=0;
+    
     DBConnection dbCon = new DBConnection();
     public AddNewJobFrame() {
         initComponents();
@@ -173,26 +181,41 @@ public class AddNewJobFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtLocationActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        Orders orders = new Orders();
-        orders.setRequestNumber(0);
-        orders.setDescription(txtDescription.getText());
-        orders.setItemNo(txtItemNo.getText());
-        orders.setClient(txtClient.getText());
-        orders.setOrderDate(txtOrderDate.getText());
-        orders.setJobNumber(txtJobNumber.getText());
-        orders.setLocation(txtLocation.getText());
-        orders.setQuantity(new Integer(txtQuantity.getText()).intValue());
-        orders.setDeadline(txtDeadline.getText());
-        orders.setToBeCast(new Integer(txtQuantity.getText()).intValue());
-        //orders.setDeliveredQuantity(0);
-        orders.setToBeDeliver(new Integer(txtQuantity.getText()).intValue());
-        //orders.setIsDeleted(0);
-        if(dbCon.addOrders(orders)){
-        JOptionPane.showMessageDialog(this,"Successfully Inserted!!");
-        clearFields();
-        }else{
-        JOptionPane.showMessageDialog(this, "Erroe while Inserting!!");
-        clearFields();
+        try {
+            Orders orders = new Orders();
+            orders.setRequestNumber(0);
+            orders.setDescription(txtDescription.getText());
+            orders.setItemNo(txtItemNo.getText());
+            orders.setClient(txtClient.getText());
+            orders.setOrderDate(txtOrderDate.getText());
+            orders.setJobNumber(txtJobNumber.getText());
+            orders.setLocation(txtLocation.getText());
+            orders.setQuantity(new Integer(txtQuantity.getText()).intValue());
+            orders.setDeadline(txtDeadline.getText());
+            orders.setToBeCast(new Integer(txtQuantity.getText()).intValue());
+            //orders.setDeliveredQuantity(0);
+            orders.setToBeDeliver(new Integer(txtQuantity.getText()).intValue());
+            //calculate the daily target
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+            String date1 =orders.getOrderDate();
+            System.out.println(date1);
+            String date2 =orders.getDeadline();
+            System.out.println(date2);
+            Date d1=format.parse(date1);
+            Date d2=format.parse(date2);
+            daysLeft=getDifferenceDays(d1,d2);
+            dailyTarget=(int) orders.getQuantity()/daysLeft;
+            orders.setDailyTarget(dailyTarget);
+            //orders.setIsDeleted(0);
+            if(dbCon.addOrders(orders)){
+                JOptionPane.showMessageDialog(this,"Successfully Inserted!!");
+                clearFields();
+            }else{
+                JOptionPane.showMessageDialog(this, "Erroe while Inserting!!");
+                clearFields();
+            }
+        } catch (ParseException ex) {
+            System.out.println("Exception->>"+ex);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -207,6 +230,13 @@ public class AddNewJobFrame extends javax.swing.JInternalFrame {
     txtQuantity.setText("");
     
     
+    }
+    int getDifferenceDays(Date d1,Date d2){
+    int dayDiff;
+    long diff=d2.getTime()-d1.getTime();
+    long diffDays=diff/(24*60*60*1000);
+    dayDiff=(int)diffDays;
+    return dayDiff;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
