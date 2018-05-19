@@ -184,9 +184,9 @@ public class AddNewJobFrame extends javax.swing.JInternalFrame {
         orders.setQuantity(new Integer(txtQuantity.getText()).intValue());
         orders.setDeadline(txtDeadline.getText());
         orders.setToBeCast(new Integer(txtQuantity.getText()).intValue());
-        orders.setDeliveredQuantity(0);
+        //orders.setDeliveredQuantity(0);
         orders.setToBeDeliver(new Integer(txtQuantity.getText()).intValue());
-        orders.setIsDeleted(0);
+        //orders.setIsDeleted(0);
         if(dbCon.addOrders(orders)){
         JOptionPane.showMessageDialog(this,"Successfully Inserted!!");
         clearFields();
