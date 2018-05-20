@@ -5,12 +5,17 @@
  */
 package MyFrames;
 
+import DBConnection.DBConnection;
+import Model.Orders;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Bimalka
  */
 public class JobUpdateForm extends javax.swing.JInternalFrame {
-
+    Orders order = new Orders();
+    DBConnection dbcon =new DBConnection();
     /**
      * Creates new form JobUpdateForm
      */
@@ -113,9 +118,25 @@ public class JobUpdateForm extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
+        order.setJobNumber(txtJobNo.getText());
+        order.setItemNo(txtItemNo.getText());
+        int proqty=new Integer(txtProQty.getText()).intValue();
+        int delqty=new Integer(txtDelQty.getText()).intValue();
+        if(dbcon.updateJob(order,proqty,delqty)){
+        JOptionPane.showMessageDialog(this,"Successfully Updated");
+        Clearfields();
+        }
+        else{
+        JOptionPane.showMessageDialog(this,"Error While Updating");
+        Clearfields();
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
-
+    void Clearfields(){
+    txtJobNo.setText("");
+    txtItemNo.setText("");
+    txtProQty.setText("");
+    txtDelQty.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnUpdate;

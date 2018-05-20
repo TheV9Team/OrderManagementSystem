@@ -21,6 +21,11 @@ public class DBConnection {
     Connection con=null;
     PreparedStatement pst=null;
     ResultSet rs=null;
+    Statement st=null;
+    
+    int to_be_cast;
+    int delivered_quantity;
+    int to_be_deliver;
     
     public boolean addOrders(Orders o){
     try{
@@ -69,7 +74,7 @@ public class DBConnection {
     }
     
     }
-    public boolean updateJob(String jobno){
+    public boolean deleteJob(String jobno){
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             con=(Connection)DriverManager.getConnection(url,username,password);
@@ -96,6 +101,42 @@ public class DBConnection {
         }catch(Exception e){
             System.out.println("Exception->>"+e);
         }
+        }
+    }
+    public boolean updateJob(Orders o,int proqty,int delqty){
+        try{
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            System.out.println("1");
+            con=(Connection)DriverManager.getConnection(url,username,password);
+            System.out.println("2");
+            String query1="SELECT * FROM orders WHERE job_number='"+o.getJobNumber()+"' && item_number='"+o.getItemNo()+"'";
+            System.out.println("3");
+            st=(Statement)con.createStatement();
+            System.out.println("4");
+            rs=st.executeQuery(query1);
+            System.out.println("5");
+            while(rs.next()){
+            to_be_cast=rs.getInt("to_be_cast")-proqty;
+            System.out.println("6");
+            delivered_quantity=rs.getInt("delivered_quantity")+delqty;
+            System.out.println("7");
+            to_be_deliver=rs.getInt("to_be_deliver")-delqty;
+            }
+            String query2="UPDATE orders SET to_be_cast=?,delivered_quantity=?,to_be_deliver=? WHERE job_number='"+o.getJobNumber()+"' && item_number='"+o.getItemNo()+"'";
+            System.out.println("8");
+            pst=(PreparedStatement)con.prepareStatement(query2);
+            System.out.println("9");
+            pst.setInt(1, to_be_cast);
+            System.out.println("10");
+            pst.setInt(2, delivered_quantity);
+            System.out.println("11");
+            pst.setInt(3,to_be_deliver);
+            pst.executeUpdate();
+            System.out.println("12");
+            return true;
+        }catch(Exception e){
+            System.out.println("exception->>"+e);
+            return false;
         }
     }
     

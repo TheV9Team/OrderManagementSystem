@@ -76,11 +76,11 @@ public class DeleteCompletedOrders extends javax.swing.JPanel {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
  
         String job_number=txtDelJobNu.getText();
-        if(dbCon.updateJob(job_number)){
-            JOptionPane.showMessageDialog(this,"successfully Updated");
+        if(dbCon.deleteJob(job_number)){
+            JOptionPane.showMessageDialog(this,"successfully Deleted");
             clearFields();
         }else{
-            JOptionPane.showMessageDialog(this, "Error While Updating");
+            JOptionPane.showMessageDialog(this, "Error While Deleting");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
     void clearFields(){
