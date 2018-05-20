@@ -203,8 +203,8 @@ public class AddNewJobFrame extends javax.swing.JInternalFrame {
             System.out.println(date2);
             Date d1=format.parse(date1);
             Date d2=format.parse(date2);
-            daysLeft=getDifferenceDays(d1,d2);
-            dailyTarget=(int) orders.getQuantity()/daysLeft;
+            daysLeft=getDifferenceDays(d1,d2)-1;
+            dailyTarget=(int) orders.getToBeCast()/daysLeft;
             orders.setDailyTarget(dailyTarget);
             //orders.setIsDeleted(0);
             if(dbCon.addOrders(orders)){

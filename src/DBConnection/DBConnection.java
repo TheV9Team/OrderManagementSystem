@@ -7,6 +7,8 @@
 package DBConnection;
 import Model.Orders;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,7 +28,7 @@ public class DBConnection {
     Class.forName("com.mysql.jdbc.Driver").newInstance();
     System.out.println("Add New Order 1");
     con = (Connection)DriverManager.getConnection(url,username,password);
-    String query ="INSERT INTO orders VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?) ";
+    String query ="INSERT INTO orders VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
     pst = (PreparedStatement) con.prepareStatement(query);
     pst.setInt(1, o.getRequestNumber());
     pst.setString(2,o.getDescription());
@@ -40,7 +42,8 @@ public class DBConnection {
     pst.setInt(10, o.getToBeCast());
     pst.setInt(11, o.getDeliveredQuantity());
     pst.setInt(12, o.getToBeDeliver());
-    pst.setInt(13, o.getIsDeleted());
+    pst.setInt(13,o.getDailyTarget());
+    pst.setInt(14, o.getIsDeleted());
     System.out.println("Add New Order2");
     pst.executeUpdate();
     System.out.println("Add New Order3");
@@ -50,14 +53,50 @@ public class DBConnection {
     return false;
     }finally{
     try{
-    
+    if(pst !=null){
+        pst.close();
+        }
+        if(con !=null){
+        con.close();
+        }
+        if(rs !=null){
+        rs.close();
+        }
     }catch(Exception e){
-    System.out.println("");
+    System.out.println("exe-->"+e);
     }
     
     }
     
     }
-    
+    public boolean updateJob(String jobno){
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            con=(Connection)DriverManager.getConnection(url,username,password);
+            String query="UPDATE orders set is_deleted=? WHERE job_number=?";
+            pst=(PreparedStatement)con.prepareStatement(query);
+            pst.setInt(1, 1);
+            pst.setString(2,jobno);
+            pst.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Exception->>"+e);
+            return false;
+        }finally{
+        try{
+            if(con!=null){
+            con.close();
+            }
+            if(pst!=null){
+            pst.close();
+            }
+            if(rs!=null){
+            rs.close();
+            }
+        }catch(Exception e){
+            System.out.println("Exception->>"+e);
+        }
+        }
+    }
     
 }

@@ -5,12 +5,16 @@
  */
 package MyFrames.Mypanels;
 
+import DBConnection.DBConnection;
+import Model.Orders;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Bimalka
  */
 public class DeleteCompletedOrders extends javax.swing.JPanel {
-
+    DBConnection dbCon = new DBConnection();
     /**
      * Creates new form DeleteCompletedOrders
      */
@@ -37,6 +41,11 @@ public class DeleteCompletedOrders extends javax.swing.JPanel {
         jLabel1.setText("Job Number");
 
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -64,6 +73,19 @@ public class DeleteCompletedOrders extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+ 
+        String job_number=txtDelJobNu.getText();
+        if(dbCon.updateJob(job_number)){
+            JOptionPane.showMessageDialog(this,"successfully Updated");
+            clearFields();
+        }else{
+            JOptionPane.showMessageDialog(this, "Error While Updating");
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+    void clearFields(){
+    txtDelJobNu.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;

@@ -56,7 +56,7 @@ public class OnGoingOrders extends javax.swing.JPanel {
     orders.setLocation(rs.getString("location"));
     orders.setQuantity(rs.getInt("qty"));
     orders.setDeadline(rs.getString("deadline"));
-    orders.setDailyTarget(0);
+    orders.setDailyTarget(rs.getInt("daily_target"));
     orders.setToBeCast(rs.getInt("to_be_cast"));
     orders.setDeliveredQuantity(rs.getInt("delivered_quantity"));
     orders.setToBeDeliver(rs.getInt("to_be_deliver"));

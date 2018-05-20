@@ -10,6 +10,9 @@ import MyFrames.Mypanels.OnGoingOrders;
 import MyFrames.Mypanels.OrdersTimeline;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /**
  *
@@ -131,6 +134,7 @@ public class ViewJobFrame extends javax.swing.JInternalFrame {
         p1.setVisible(true);
         p2.setVisible(false);
         p3.setVisible(false);
+        
     }//GEN-LAST:event_btnViewActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
