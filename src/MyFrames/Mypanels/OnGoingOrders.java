@@ -34,17 +34,11 @@ public class OnGoingOrders extends javax.swing.JPanel {
     public ArrayList<Orders> OrderList(){
     ArrayList<Orders> OrdersList = new ArrayList<>();
     try{
-    System.out.println("Add New Order 1");
     Class.forName("com.mysql.jdbc.Driver").newInstance();
-    System.out.println("Add New Order 2");
     con = (Connection)DriverManager.getConnection(url,username,password);
-    System.out.println("Add New Order 3");
     String query ="SELECT * FROM orders WHERE is_deleted=0";
-    System.out.println("Add New Order 4");
     st =(Statement) con.createStatement();
-    System.out.println("Add New Order 5");
     rs=st.executeQuery(query);
-    System.out.println("Add New Order 6");
     Orders orders;
     while(rs.next()){
     orders = new Orders();

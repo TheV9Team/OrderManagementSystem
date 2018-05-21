@@ -5,19 +5,70 @@
  */
 package MyFrames.Mypanels;
 
+import Model.Stocks;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Bimalka
  */
 public class StockView extends javax.swing.JPanel {
-
+    String url="jdbc:mysql://localhost:3306/els";
+    String username="root";
+    String password="";
+    Connection con=null;
+    PreparedStatement pst=null;
+    Statement st = null;
+    ResultSet rs =null;
     /**
      * Creates new form StockView
      */
     public StockView() {
         initComponents();
+        showStocksTable();
     }
-
+    
+    public ArrayList<Stocks> stockList(){
+        ArrayList<Stocks> StocksList=new ArrayList<>();
+        try{
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            con =(Connection)DriverManager.getConnection(url,username,password);
+            String query="SELECT * FROM stocks WHERE qty>0";
+            st=(Statement) con.createStatement();
+            rs=st.executeQuery(query);
+            while(rs.next()){
+            Stocks s =new Stocks();
+            s.setDescription(rs.getString("description"));
+            s.setItemNO(rs.getString("item_number"));
+            s.setQty(rs.getInt("qty"));
+            StocksList.add(s);
+            }
+        
+        }catch(Exception e){
+            System.out.println("Exception -->"+e);
+            
+        }
+        
+        return StocksList;
+    }
+    
+    public void showStocksTable(){
+    ArrayList<Stocks> list=stockList();
+    DefaultTableModel model=(DefaultTableModel)jTable_view_stock_table.getModel();
+    Object[] row=new Object[3];
+    for(int i=0;i<list.size();i++){
+    row[0]=list.get(i).getItemNO();
+    row[1]=list.get(i).getDescription();
+    row[2]=list.get(i).getQty();
+    model.addRow(row);
+    }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,22 +79,19 @@ public class StockView extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable_view_stock_table = new javax.swing.JTable();
 
         setAutoscrolls(true);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_view_stock_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Item Number", "Description", "Quantity"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTable_view_stock_table);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -60,6 +108,6 @@ public class StockView extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable_view_stock_table;
     // End of variables declaration//GEN-END:variables
 }
