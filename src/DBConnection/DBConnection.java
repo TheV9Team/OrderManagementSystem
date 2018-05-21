@@ -6,6 +6,8 @@
 
 package DBConnection;
 import Model.Orders;
+import Model.Reports;
+import Model.Stocks;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +28,9 @@ public class DBConnection {
     int to_be_cast;
     int delivered_quantity;
     int to_be_deliver;
+    int qty;
+    int dqty;
+    int i=2;
     
     public boolean addOrders(Orders o){
     try{
@@ -78,7 +83,7 @@ public class DBConnection {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             con=(Connection)DriverManager.getConnection(url,username,password);
-            String query="UPDATE orders set is_deleted=? WHERE job_number=?";
+            String query="UPDATE orders SET is_deleted=? WHERE job_number=?";
             pst=(PreparedStatement)con.prepareStatement(query);
             pst.setInt(1, 1);
             pst.setString(2,jobno);
@@ -137,7 +142,136 @@ public class DBConnection {
         }catch(Exception e){
             System.out.println("exception->>"+e);
             return false;
+        }finally{
+        try{
+            if(con!=null){
+            con.close();
+            }
+            if(pst!=null){
+            pst.close();
+            }
+            if(rs!=null){
+            rs.close();
+            }
+            if(st!=null){
+            st.close();
+            }
+        }catch(Exception e){
+            System.out.println("Exception->>"+e);
         }
+        }
+    }
+    public boolean updateStocks(Stocks s){
+    try{
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        con=(Connection)DriverManager.getConnection(url,username,password);
+        String query1="SELECT * FROM stocks WHERE item_number='"+s.getItemNO()+"'";
+        st=(Statement)con.createStatement();
+        rs=st.executeQuery(query1);
+        while(rs.next()){
+        qty=rs.getInt("qty");
+        qty=qty+new Integer(s.getQty()).intValue();
+        String query2="UPDATE stocks SET qty=? WHERE item_number='"+s.getItemNO()+"'";
+        pst=(PreparedStatement)con.prepareStatement(query2);
+        pst.setInt(1, qty);
+        pst.executeUpdate();
+        }
+        return true;
+    }catch(Exception e){
+        System.out.println("Exception->>"+e);
+        return false;
+    }finally{
+        try{
+            if(con!=null){
+            con.close();
+            }
+            if(pst!=null){
+            pst.close();
+            }
+            if(rs!=null){
+            rs.close();
+            }
+            if(st!=null){
+            st.close();
+            }
+        }catch(Exception e){
+            System.out.println("Exception->>"+e);
+        }
+        }
+    
+    }
+    public boolean updateReports(Reports r){
+    try{
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        con=(Connection)DriverManager.getConnection(url,username,password);
+        
+        //check whether Date is already available
+        String query="SELECT * FROM report WHERE Date='"+r.getDate()+"'";
+        st=(Statement) con.createStatement();
+        rs=st.executeQuery(query);
+        
+        //If Date is not available , create a new row in a table and update item qty
+        if(rs.next()==false){
+        
+        //insert a new date row
+        String query1="INSERT INTO report VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; 
+        pst=(PreparedStatement) con.prepareStatement(query1);
+        pst.setString(1,r.getDate());
+        while(i<298){
+        pst.setInt(i,0);
+        i++;
+        }
+        pst.executeUpdate();
+        pst.close();
+        
+        //Set/update Item number qty
+        String query4="UPDATE report SET `"+r.getItemno()+"`=? WHERE Date='"+r.getDate()+"'";
+        pst=(PreparedStatement) con.prepareStatement(query4);
+        pst.setInt(1, r.getQty());
+        pst.executeUpdate();
+        rs.close();
+            System.out.println("create new date row");
+        }
+        //if date is available only upadte the item number,qty
+        else{
+            //Select date
+            String query6="SELECT * FROM report WHERE Date='"+r.getDate()+"'";
+            st=(Statement) con.createStatement();
+            rs=st.executeQuery(query6);
+            while(rs.next()){
+            dqty=rs.getInt(r.getItemno());
+            dqty=dqty+new Integer(r.getQty()).intValue();
+            }
+        //Update item number quantity
+        String query5="UPDATE report SET `"+r.getItemno()+"`=? WHERE Date='"+r.getDate()+"'";
+        pst=(PreparedStatement) con.prepareStatement(query5);
+        pst.setInt(1, dqty);
+        pst.executeUpdate();
+            System.out.println("update created date row");
+        }
+        return true;
+    }catch(Exception e){
+        System.out.println("Exception->>"+e);
+        return false;
+    }finally{
+        try{
+            if(con!=null){
+            con.close();
+            }
+            if(pst!=null){
+            pst.close();
+            }
+            if(rs!=null){
+            rs.close();
+            }
+            if(st!=null){
+            st.close();
+            }
+        }catch(Exception e){
+            System.out.println("Exception->>"+e);
+        }
+        }
+    
     }
     
 }

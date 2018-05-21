@@ -57,7 +57,6 @@ public class ViewJobFrame extends javax.swing.JInternalFrame {
         ButtonPannel = new javax.swing.JPanel();
         btnView = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         Dynamicpannel = new javax.swing.JPanel();
 
         setClosable(true);
@@ -79,13 +78,6 @@ public class ViewJobFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton1.setText("Timeline");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout ButtonPannelLayout = new javax.swing.GroupLayout(ButtonPannel);
         ButtonPannel.setLayout(ButtonPannelLayout);
         ButtonPannelLayout.setHorizontalGroup(
@@ -93,23 +85,18 @@ public class ViewJobFrame extends javax.swing.JInternalFrame {
             .addGroup(ButtonPannelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(ButtonPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(ButtonPannelLayout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                    .addComponent(btnView, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
                 .addContainerGap())
         );
         ButtonPannelLayout.setVerticalGroup(
             ButtonPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ButtonPannelLayout.createSequentialGroup()
-                .addGap(68, 68, 68)
+                .addGap(93, 93, 93)
                 .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(32, 32, 32)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
 
         getContentPane().add(ButtonPannel, java.awt.BorderLayout.LINE_START);
@@ -143,18 +130,11 @@ public class ViewJobFrame extends javax.swing.JInternalFrame {
         p3.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        p3.setVisible(true);
-        p1.setVisible(false);
-        p2.setVisible(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ButtonPannel;
     private javax.swing.JPanel Dynamicpannel;
     private javax.swing.JButton btnView;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     // End of variables declaration//GEN-END:variables
 }

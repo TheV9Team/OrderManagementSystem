@@ -5,12 +5,21 @@
  */
 package MyFrames.Mypanels;
 
+import DBConnection.DBConnection;
+import Model.Orders;
+import Model.Reports;
+import Model.Stocks;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Bimalka
  */
 public class StockUpdate extends javax.swing.JPanel {
-
+    DBConnection dbcon = new DBConnection();
+    Orders order = new Orders();
+    Reports report = new Reports();
+    Stocks stock = new Stocks();
     /**
      * Creates new form StockUpdate
      */
@@ -46,6 +55,11 @@ public class StockUpdate extends javax.swing.JPanel {
         jLabel4.setText("Issued Quantity");
 
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -96,6 +110,41 @@ public class StockUpdate extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        String date=txtDate.getText();
+        int issqty=new Integer(txtIssQty.getText()).intValue();
+        int proqty=new Integer(txtProQty.getText()).intValue();
+        int qty=proqty-issqty;
+        String itemno=txtItemNo.getText();
+        
+        report.setDate(date);
+        report.setItemno(itemno);
+        report.setQty(proqty);
+        if(dbcon.updateReports(report)){
+            JOptionPane.showMessageDialog(this,"Reports Updated Successfully");
+            clearfields();
+        }else{
+            JOptionPane.showMessageDialog(this,"Error While Updating Reports");
+            clearfields();
+             
+        }
+        stock.setItemNO(itemno);
+        stock.setQty(qty);
+        if(dbcon.updateStocks(stock)){
+        JOptionPane.showMessageDialog(this,"Stocks Updated Successfully");
+        clearfields();
+        }else{
+        JOptionPane.showMessageDialog(this,"Error While Updating Stocks");
+        clearfields();
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+    void clearfields(){
+    txtDate.setText("");
+    txtIssQty.setText("");
+    txtProQty.setText("");
+    txtItemNo.setText("");
+    
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnUpdate;
