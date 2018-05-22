@@ -196,14 +196,14 @@ public class AddNewJobFrame extends javax.swing.JInternalFrame {
             //orders.setDeliveredQuantity(0);
             orders.setToBeDeliver(new Integer(txtQuantity.getText()).intValue());
             //calculate the daily target
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String date1 =orders.getOrderDate();
             System.out.println(date1);
             String date2 =orders.getDeadline();
             System.out.println(date2);
             Date d1=format.parse(date1);
             Date d2=format.parse(date2);
-            daysLeft=getDifferenceDays(d1,d2)-1;
+            daysLeft=getDifferenceDays(d1,d2);
             dailyTarget=(int) orders.getToBeCast()/daysLeft;
             orders.setDailyTarget(dailyTarget);
             //orders.setIsDeleted(0);
