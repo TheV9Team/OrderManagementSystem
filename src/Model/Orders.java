@@ -12,6 +12,48 @@ package Model;
 public class Orders {
 
     /**
+     * @return the duration
+     */
+    public int getDuration() {
+        return duration;
+    }
+
+    /**
+     * @param duration the duration to set
+     */
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    /**
+     * @return the remaining
+     */
+    public int getRemaining() {
+        return remaining;
+    }
+
+    /**
+     * @param remaining the remaining to set
+     */
+    public void setRemaining(int remaining) {
+        this.remaining = remaining;
+    }
+
+    /**
+     * @return the casted
+     */
+    public int getCasted() {
+        return casted;
+    }
+
+    /**
+     * @param casted the casted to set
+     */
+    public void setCasted(int casted) {
+        this.casted = casted;
+    }
+
+    /**
      * @return the dailyTarget
      */
     public int getDailyTarget() {
@@ -220,5 +262,8 @@ public class Orders {
     private int isDeleted;
     private int requestNumber;
     private int dailyTarget;
+    private int duration;
+    private int remaining;
+    private int casted;
     
 }
