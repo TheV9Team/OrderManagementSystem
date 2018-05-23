@@ -74,7 +74,7 @@ public class DailyProductionProgress extends javax.swing.JInternalFrame {
             java.sql.Date date=new java.sql.Date(millis);
            
             //calculate remaining
-            remaining=getDifferenceDays(date, d2);
+            remaining=getDifferenceDays(date, d2)+1;
             o.setRemaining(remaining);
             //calculate daily target
             dailyTarget=(int) o.getToBeCast()/remaining;

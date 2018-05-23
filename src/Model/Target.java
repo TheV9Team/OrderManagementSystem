@@ -9,21 +9,7 @@ package Model;
  *
  * @author Bimalka
  */
-public class Stocks {
-
-    /**
-     * @return the dailyTarget
-     */
-    public int getDailyTarget() {
-        return dailyTarget;
-    }
-
-    /**
-     * @param dailyTarget the dailyTarget to set
-     */
-    public void setDailyTarget(int dailyTarget) {
-        this.dailyTarget = dailyTarget;
-    }
+public class Target {
 
     /**
      * @return the itemNO
@@ -65,6 +51,20 @@ public class Stocks {
      */
     public void setQty(int qty) {
         this.qty = qty;
+    }
+
+    /**
+     * @return the dailyTarget
+     */
+    public int getDailyTarget() {
+        return dailyTarget;
+    }
+
+    /**
+     * @param dailyTarget the dailyTarget to set
+     */
+    public void setDailyTarget(int dailyTarget) {
+        this.dailyTarget = dailyTarget;
     }
     private String itemNO;
     private String description;
